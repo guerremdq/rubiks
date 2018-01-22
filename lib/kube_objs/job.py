@@ -5,14 +5,12 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-from kube_obj import KubeObj, KubeSubObj, order_dict
+from kube_obj import KubeObj
 from kube_types import *
 from .environment import *
 from .pod import *
 from .selectors import *
 from .mixins import EnvironmentPreProcessMixin
-
-
 
 class Job(KubeObj):
     apiVersion = 'batch/v1'
@@ -28,7 +26,11 @@ class Job(KubeObj):
         }
 
     _types = {
-        'pod_template': PodTemplateSpec,
+        'activeDeadlineSeconds': Positive(NonZero(Integer),
+        'backoffLimit': Positive(NonZero(Integer),
+        'parallelism': Positive(NonZero(Integer),
+        'completions': Positive(NonZero(Integer),
+        'pod_template': PodTemplateSpec
         }
 
     _parse_default_base = ('spec',)
