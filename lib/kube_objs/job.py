@@ -18,18 +18,18 @@ class Job(KubeObj):
     kubectltype = 'job'
 
     _defaults = {
-        'activeDeadlineSeconds': 100,
-        'backoffLimit': 5,
+        'activeDeadlineSeconds': None,
         'parallelism': 1,
         'completions': 1,
+        'manualSelector': None,
         'pod_template': PodTemplateSpec(restartPolicy='Never'),
         }
 
     _types = {
-        'activeDeadlineSeconds': Positive(NonZero(Integer)),
-        'backoffLimit': Positive(NonZero(Integer)),
-        'parallelism': Positive(NonZero(Integer)),
-        'completions': Positive(NonZero(Integer)),
+        'activeDeadlineSeconds': Nullable(Positive(Integer)),
+        'manualSelector': Nullable(Boolean),
+        'parallelism': Nullable(Positive(NonZero(Integer))),
+        'completions': Nullable(Positive(NonZero(Integer))),
         'pod_template': PodTemplateSpec
         }
 
