@@ -22,12 +22,14 @@ class Job(KubeObj):
         'parallelism': 1,
         'completions': 1,
         'manualSelector': None,
+        'selector': None,
         'pod_template': PodTemplateSpec(restartPolicy='Never'),
         }
 
     _types = {
         'activeDeadlineSeconds': Nullable(Positive(Integer)),
         'manualSelector': Nullable(Boolean),
+        'selector': Nullable(BaseSelector),
         'parallelism': Nullable(Positive(NonZero(Integer))),
         'completions': Nullable(Positive(NonZero(Integer))),
         'pod_template': PodTemplateSpec
