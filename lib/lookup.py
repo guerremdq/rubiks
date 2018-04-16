@@ -63,7 +63,7 @@ class Resolver(object):
             if b'GITCRYPT' in data[0:10]:
                 if not self.git_crypt_ok:
                     raise ValueError("file {} was git-crypt-ed and cannot be read".format(path.repo_rel_path))
-                return
+                break
 
             try:
                 data = data.decode('utf8')
@@ -113,7 +113,7 @@ class Resolver(object):
         while i < len(path_c):
             if not isinstance(ctx, dict) or not path_c[i] in ctx:
                 raise UserError(KeyNotExist("branch {} ({}) doesn't exist in {}".format(
-                    '.'.join(path_c[0:i]), path, self.path.repo_rel_path)))
+                    '.'.join(path_c[0:i]), path, self._get_repo_rel_path())))
 
             ctx = ctx[path_c[i]]
             i += 1
