@@ -40,6 +40,7 @@ class Resolver(object):
         self.default = default
         self.assert_type = assert_type
         self.has_data = False
+        self.has_gitcrypt = False
         self.path = pth
         self.data = dict()
         self.non_exist_ok = non_exist_ok
@@ -61,9 +62,16 @@ class Resolver(object):
                 return
 
             if b'GITCRYPT' in data[0:10]:
+                if self.has_data:
+                    raise ValueError("Mixed crypt and notcrypt data in lookup files")
+
                 if not self.git_crypt_ok:
                     raise ValueError("file {} was git-crypt-ed and cannot be read".format(path.repo_rel_path))
-                break
+                self.has_gitcrypt = True
+                continue
+
+            if self.has_gitcrypt:
+                raise ValueError("Mixed crypt and notcrypt data in lookup files")
 
             try:
                 data = data.decode('utf8')

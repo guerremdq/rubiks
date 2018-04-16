@@ -165,5 +165,15 @@ class TestResolver(unittest.TestCase):
         Resolver.current_cluster = FakeClusterInfo('ireland')
         self.assertRaises(lookup.KeyNotExist, res.get_branches, 'qux.{cluster}')
 
+    def test_multiple_files(self):
+        res = Resolver([self.get_path('normal.yaml'), self.get_path('normal.json')])
+        self.assertEqual(res.get_branches('foo'), ('bar', 'xyzzy'))
+        self.assertEqual(res.get_branches('xyzzy'), ())
+
+    def test_mixed_data(self):
+        self.assertRaises(ValueError, Resolver, [self.get_path('normal.yaml'), self.get_path('crypted.yaml')])
+        self.assertRaises(ValueError, Resolver, [self.get_path('crypted.yaml'), self.get_path('normal.yaml')])
+
+
 if __name__ == '__main__':
     unittest.main()
