@@ -163,9 +163,6 @@ class Resolver(object):
         return path.format(cluster=self.__class__.current_cluster.name)
 
     def _get_repo_rel_path(self):
-        ret = ''
-        for p in self.path:
-            ret + p.repo_rel_path + ','
         return ', '.join(map(lambda x: x.repo_rel_path, self.path))
 
     def _get_key(self, path, e_txt):
