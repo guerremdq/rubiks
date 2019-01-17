@@ -163,3 +163,8 @@ def yaml_load(string):
     if sys.version_info[0] == 2:
         string = unicode(string)
     return yaml.load(StringIO(string))
+
+def yaml_load_all(string):
+    if sys.version_info[0] == 2:
+        string = unicode(string)
+    return yaml.load_all(StringIO(string))
