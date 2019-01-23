@@ -166,6 +166,14 @@ def yaml_dump(*args, **kwargs):
     yaml.dump(*args, **kwargs)
     return stream.get_value()
 
+def yaml_dump_all(*args, **kwargs):
+    stream = FakeStringIO()
+    kwargs['stream'] = stream
+    kwargs['default_flow_style'] = False
+    kwargs['allow_unicode'] = True
+    kwargs['Dumper'] = BlockDumper
+    yaml.dump_all(*args, **kwargs)
+    return stream.get_value()
 
 def yaml_load(string):
     if sys.version_info[0] == 2:
